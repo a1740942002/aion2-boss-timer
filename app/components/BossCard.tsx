@@ -17,17 +17,18 @@ interface BossCardProps {
 }
 
 export function BossCard({ boss, onReportKill, onEditKill, onClearKill }: BossCardProps) {
-  const [timeRemaining, setTimeRemaining] = useState(boss.timeRemaining)
+  const [currentTime, setCurrentTime] = useState(() => Date.now())
 
   useEffect(() => {
-    if (boss.respawnTime) {
-      const interval = setInterval(() => {
-        const remaining = new Date(boss.respawnTime!).getTime() - Date.now()
-        setTimeRemaining(remaining)
-      }, 1000)
-      return () => clearInterval(interval)
-    }
-  }, [boss.respawnTime])
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now())
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const timeRemaining = boss.respawnTime
+    ? new Date(boss.respawnTime).getTime() - currentTime
+    : null
 
   const countdown =
     timeRemaining !== null ? formatCountdown(timeRemaining) : null
