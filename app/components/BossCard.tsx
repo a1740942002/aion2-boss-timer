@@ -46,6 +46,11 @@ export function BossCard({ boss, onReportKill, onEditKill }: BossCardProps) {
           <span className={`boss-type ${TYPE_COLORS[boss.type]}`}>
             {TYPE_LABELS[boss.type]}
           </span>
+          {boss.specialDrop && (
+            <span className="special-drop-badge" title="有特殊掉落">
+              特殊掉落
+            </span>
+          )}
           <button className="history-btn" title="查看歷史">
             <svg
               width="16"

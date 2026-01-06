@@ -6,6 +6,7 @@ export interface Boss {
   teleportPoint: string
   type: BossType
   respawnHours: number
+  specialDrop: boolean
   deathTime: string | null
   reporter: string | null
   respawnTime: string | null

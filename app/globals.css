@@ -156,6 +156,24 @@ body {
   white-space: nowrap;
 }
 
+.special-drop-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: var(--accent-purple);
+}
+
+.special-drop-badge svg {
+  flex-shrink: 0;
+}
+
 .history-btn {
   background: transparent;
   border: none;

@@ -60,28 +60,28 @@ const bossData = [
     teleportPoint: '法夫奈特埋藏地',
     type: BossType.UNIQUE,
     respawnHours: 6,
-    specialDrop: false
+    specialDrop: true
   },
   {
     name: '不滅卡爾吐亞',
     teleportPoint: '不滅之島',
     type: BossType.UNIQUE,
     respawnHours: 12,
-    specialDrop: false
+    specialDrop: true
   },
   {
     name: '軍團長拉格塔',
     teleportPoint: '拉格塔要塞',
     type: BossType.UNIQUE,
     respawnHours: 12,
-    specialDrop: false
+    specialDrop: true
   },
   {
     name: '精靈王阿格羅',
     teleportPoint: '希埃爾之翼群島',
     type: BossType.UNIQUE,
     respawnHours: 12,
-    specialDrop: false
+    specialDrop: true
   },
   {
     name: '融化的達納樂',
@@ -116,7 +116,7 @@ const bossData = [
     teleportPoint: '淨化之森',
     type: BossType.UNIQUE,
     respawnHours: 6,
-    specialDrop: false
+    specialDrop: true
   },
   {
     name: '參謀官勒沙納',
@@ -186,7 +186,7 @@ const bossData = [
     teleportPoint: '艾雷修藍塔下層',
     type: BossType.UNIQUE,
     respawnHours: 1,
-    specialDrop: false
+    specialDrop: true
   }
 ]
 
