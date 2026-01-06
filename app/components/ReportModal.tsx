@@ -35,7 +35,10 @@ export function ReportModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(reporter, deathTime)
+    // Convert datetime-local string to ISO string with timezone
+    const localDate = new Date(deathTime)
+    const isoString = localDate.toISOString()
+    onSubmit(reporter, isoString)
   }
 
   return (
