@@ -35,7 +35,7 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [fetchBosses])
 
-  const handleReportKill = async (reporter: string, deathTime: string) => {
+  const handleReportKill = async (reporter: string, deathTime: string | null) => {
     if (!selectedBoss) return
 
     try {
@@ -49,6 +49,19 @@ export default function Home() {
       fetchBosses()
     } catch (error) {
       console.error('Failed to report kill:', error)
+    }
+  }
+
+  const handleClearKill = async (boss: Boss) => {
+    try {
+      await fetch(`/api/bosses/${boss.id}/kill`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reporter: '', deathTime: null })
+      })
+      fetchBosses()
+    } catch (error) {
+      console.error('Failed to clear kill:', error)
     }
   }
 
@@ -103,6 +116,7 @@ export default function Home() {
                   boss={boss}
                   onReportKill={handleOpenReportModal}
                   onEditKill={handleOpenEditModal}
+                  onClearKill={handleClearKill}
                 />
               ))}
             </div>

@@ -13,9 +13,10 @@ interface BossCardProps {
   boss: Boss
   onReportKill: (boss: Boss) => void
   onEditKill: (boss: Boss) => void
+  onClearKill: (boss: Boss) => void
 }
 
-export function BossCard({ boss, onReportKill, onEditKill }: BossCardProps) {
+export function BossCard({ boss, onReportKill, onEditKill, onClearKill }: BossCardProps) {
   const [timeRemaining, setTimeRemaining] = useState(boss.timeRemaining)
 
   useEffect(() => {
@@ -38,32 +39,44 @@ export function BossCard({ boss, onReportKill, onEditKill }: BossCardProps) {
   // For this demo, we consider times with known deathTime as accurate
   const isAccurate = boss.deathTime !== null
 
+  const handleClearClick = () => {
+    if (confirm(`確定要清空 ${boss.name} 的死亡時間嗎？`)) {
+      onClearKill(boss)
+    }
+  }
+
   return (
     <div className="boss-card">
       <div className="boss-info">
         <div className="boss-header">
-          <h3 className="boss-name">{boss.name}</h3>
-          <span className={`boss-type ${TYPE_COLORS[boss.type]}`}>
-            {TYPE_LABELS[boss.type]}
-          </span>
-          {boss.specialDrop && (
-            <span className="special-drop-badge" title="有特殊掉落">
-              特殊掉落
+          <div className="boss-header-left">
+            <h3 className="boss-name">{boss.name}</h3>
+            <span className={`boss-type ${TYPE_COLORS[boss.type]}`}>
+              {TYPE_LABELS[boss.type]}
             </span>
+            {boss.specialDrop && (
+              <span className="special-drop-badge" title="有特殊掉落">
+                特殊掉落
+              </span>
+            )}
+          </div>
+          {boss.deathTime && (
+            <button className="clear-kill-btn" title="清空死亡時間" onClick={handleClearClick}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                <line x1="10" y1="11" x2="10" y2="17" />
+                <line x1="14" y1="11" x2="14" y2="17" />
+              </svg>
+            </button>
           )}
-          <button className="history-btn" title="查看歷史">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12,6 12,12 16,14" />
-            </svg>
-          </button>
         </div>
         <div className="boss-details">
           <span className="boss-location">

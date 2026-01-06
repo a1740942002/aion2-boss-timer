@@ -136,8 +136,17 @@ body {
 .boss-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   margin-bottom: 8px;
+}
+
+.boss-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
 }
 
 .boss-name {
@@ -174,6 +183,7 @@ body {
   flex-shrink: 0;
 }
 
+.clear-kill-btn,
 .history-btn {
   background: transparent;
   border: none;
@@ -185,6 +195,11 @@ body {
   justify-content: center;
   border-radius: 4px;
   transition: color 0.2s, background 0.2s;
+}
+
+.clear-kill-btn:hover {
+  color: var(--accent-red);
+  background: rgba(248, 81, 73, 0.1);
 }
 
 .history-btn:hover {

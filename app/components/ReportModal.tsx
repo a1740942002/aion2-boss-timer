@@ -7,7 +7,7 @@ interface ReportModalProps {
   boss: Boss
   isEditMode?: boolean
   onClose: () => void
-  onSubmit: (reporter: string, deathTime: string) => void
+  onSubmit: (reporter: string, deathTime: string | null) => void
 }
 
 export function ReportModal({

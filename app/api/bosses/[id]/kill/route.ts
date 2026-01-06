@@ -10,6 +10,24 @@ export async function POST(
     const body = await request.json()
     const { reporter, deathTime } = body
 
+    // If deathTime is null, clear the death record
+    if (deathTime === null) {
+      const boss = await prisma.boss.update({
+        where: { id: parseInt(id) },
+        data: {
+          deathTime: null,
+          reporter: null
+        }
+      })
+
+      return NextResponse.json({
+        ...boss,
+        respawnTime: null,
+        timeRemaining: null
+      })
+    }
+
+    // Otherwise, update with new death time
     const boss = await prisma.boss.update({
       where: { id: parseInt(id) },
       data: {
