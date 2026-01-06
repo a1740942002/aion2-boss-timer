@@ -5,13 +5,29 @@ import type { Boss } from '@/app/types/boss'
 
 interface ReportModalProps {
   boss: Boss
+  isEditMode?: boolean
   onClose: () => void
   onSubmit: (reporter: string, deathTime: string) => void
 }
 
-export function ReportModal({ boss, onClose, onSubmit }: ReportModalProps) {
-  const [reporter, setReporter] = useState('')
+export function ReportModal({
+  boss,
+  isEditMode = false,
+  onClose,
+  onSubmit
+}: ReportModalProps) {
+  const [reporter, setReporter] = useState(() => {
+    if (isEditMode && boss.reporter) {
+      return boss.reporter
+    }
+    return ''
+  })
   const [deathTime, setDeathTime] = useState(() => {
+    if (isEditMode && boss.deathTime) {
+      const date = new Date(boss.deathTime)
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+      return date.toISOString().slice(0, 16)
+    }
     const now = new Date()
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
     return now.toISOString().slice(0, 16)
@@ -25,7 +41,7 @@ export function ReportModal({ boss, onClose, onSubmit }: ReportModalProps) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>報告擊殺</h2>
+        <h2>{isEditMode ? '修改回報' : '報告擊殺'}</h2>
         <p className="modal-boss-name">{boss.name}</p>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -50,7 +66,7 @@ export function ReportModal({ boss, onClose, onSubmit }: ReportModalProps) {
               取消
             </button>
             <button type="submit" className="submit-btn">
-              確認
+              {isEditMode ? '更新' : '確認'}
             </button>
           </div>
         </form>

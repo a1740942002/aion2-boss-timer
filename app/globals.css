@@ -217,6 +217,7 @@ body {
   font-size: 0.875rem;
 }
 
+.edit-btn,
 .undo-btn {
   background: transparent;
   border: none;
@@ -229,6 +230,10 @@ body {
   border-radius: 4px;
   transition: color 0.2s;
   margin-left: 4px;
+}
+
+.edit-btn:hover {
+  color: var(--accent-blue);
 }
 
 .undo-btn:hover {

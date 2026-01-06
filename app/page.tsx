@@ -14,6 +14,7 @@ export default function Home() {
   const [bosses, setBosses] = useState<Boss[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedBoss, setSelectedBoss] = useState<Boss | null>(null)
+  const [isEditMode, setIsEditMode] = useState(false)
 
   const fetchBosses = useCallback(async () => {
     try {
@@ -44,10 +45,26 @@ export default function Home() {
         body: JSON.stringify({ reporter, deathTime })
       })
       setSelectedBoss(null)
+      setIsEditMode(false)
       fetchBosses()
     } catch (error) {
       console.error('Failed to report kill:', error)
     }
+  }
+
+  const handleOpenReportModal = (boss: Boss) => {
+    setSelectedBoss(boss)
+    setIsEditMode(false)
+  }
+
+  const handleOpenEditModal = (boss: Boss) => {
+    setSelectedBoss(boss)
+    setIsEditMode(true)
+  }
+
+  const handleCloseModal = () => {
+    setSelectedBoss(null)
+    setIsEditMode(false)
   }
 
   // Group bosses by type
@@ -84,7 +101,8 @@ export default function Home() {
                 <BossCard
                   key={boss.id}
                   boss={boss}
-                  onReportKill={setSelectedBoss}
+                  onReportKill={handleOpenReportModal}
+                  onEditKill={handleOpenEditModal}
                 />
               ))}
             </div>
@@ -95,7 +113,8 @@ export default function Home() {
       {selectedBoss && (
         <ReportModal
           boss={selectedBoss}
-          onClose={() => setSelectedBoss(null)}
+          isEditMode={isEditMode}
+          onClose={handleCloseModal}
           onSubmit={handleReportKill}
         />
       )}
