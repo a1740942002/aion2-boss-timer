@@ -23,6 +23,7 @@ model Boss {
   teleportPoint String // 傳送點
   type          BossType // 類型 (稀有/傳承/獨特)
   respawnHours  Float // 重生時間 (小時)
+  specialDrop   Boolean   @default(false) // 是否有特殊掉落
   deathTime     DateTime? // 死亡時間
   reporter      String? // 回報者
   createdAt     DateTime  @default(now())
