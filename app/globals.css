@@ -42,8 +42,8 @@ body {
 }
 
 .app-header h1 {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.75rem;
+  font-weight: 700;
   margin: 0 0 8px;
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   -webkit-background-clip: text;
@@ -55,6 +55,61 @@ body {
   color: var(--text-secondary);
   margin: 0;
   font-size: 0.95rem;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-toggle:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.filter-toggle.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(168, 85, 247, 0.1));
+  border-color: rgba(168, 85, 247, 0.5);
+  color: var(--accent-purple);
+}
+
+.filter-toggle.active:hover {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.15));
+  border-color: rgba(168, 85, 247, 0.7);
+}
+
+.filter-toggle svg {
+  flex-shrink: 0;
+}
+
+.filter-toggle.active svg {
+  fill: var(--accent-purple);
+}
+
+.filter-count {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
 /* Boss Columns Layout */
@@ -542,7 +597,7 @@ body {
   }
 
   .app-header h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .boss-card {

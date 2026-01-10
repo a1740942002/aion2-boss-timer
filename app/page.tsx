@@ -10,11 +10,28 @@ import {
 import { BossCard } from '@/app/components/BossCard'
 import { ReportModal } from '@/app/components/ReportModal'
 
+const SPECIAL_DROP_FILTER_KEY = 'aion-boss-timer-special-drop-filter'
+
 export default function Home() {
   const [bosses, setBosses] = useState<Boss[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedBoss, setSelectedBoss] = useState<Boss | null>(null)
   const [isEditMode, setIsEditMode] = useState(false)
+  const [showSpecialDropOnly, setShowSpecialDropOnly] = useState(false)
+
+  // Load filter preference from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(SPECIAL_DROP_FILTER_KEY)
+    if (saved !== null) {
+      setShowSpecialDropOnly(saved === 'true')
+    }
+  }, [])
+
+  const handleToggleSpecialDropFilter = () => {
+    const newValue = !showSpecialDropOnly
+    setShowSpecialDropOnly(newValue)
+    localStorage.setItem(SPECIAL_DROP_FILTER_KEY, String(newValue))
+  }
 
   const fetchBosses = useCallback(async () => {
     try {
@@ -35,7 +52,10 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [fetchBosses])
 
-  const handleReportKill = async (reporter: string, deathTime: string | null) => {
+  const handleReportKill = async (
+    reporter: string,
+    deathTime: string | null
+  ) => {
     if (!selectedBoss) return
 
     try {
@@ -80,9 +100,14 @@ export default function Home() {
     setIsEditMode(false)
   }
 
+  // Filter bosses based on special drop filter
+  const filteredBosses = showSpecialDropOnly
+    ? bosses.filter((boss) => boss.specialDrop)
+    : bosses
+
   // Group bosses by type
   const bossesByType = BOSS_TYPE_ORDER.reduce((acc, type) => {
-    acc[type] = bosses.filter((boss) => boss.type === type)
+    acc[type] = filteredBosses.filter((boss) => boss.type === type)
     return acc
   }, {} as Record<BossType, Boss[]>)
 
@@ -101,6 +126,30 @@ export default function Home() {
         <h1>AION 首領計時器</h1>
         <p>追蹤首領重生時間</p>
       </header>
+
+      <div className="filter-bar">
+        <button
+          className={`filter-toggle ${showSpecialDropOnly ? 'active' : ''}`}
+          onClick={handleToggleSpecialDropFilter}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          只顯示特殊掉落
+        </button>
+        {showSpecialDropOnly && (
+          <span className="filter-count">
+            顯示 {filteredBosses.length} / {bosses.length} 隻首領
+          </span>
+        )}
+      </div>
 
       <main className="boss-columns">
         {BOSS_TYPE_ORDER.map((type) => (

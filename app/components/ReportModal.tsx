@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Boss } from '@/app/types/boss'
+
+const REPORTER_NAME_KEY = 'aion-boss-timer-reporter-name'
 
 interface ReportModalProps {
   boss: Boss
@@ -22,19 +24,33 @@ export function ReportModal({
     }
     return ''
   })
+
+  // Load saved reporter name from localStorage on mount (only for new reports)
+  useEffect(() => {
+    if (!isEditMode) {
+      const savedName = localStorage.getItem(REPORTER_NAME_KEY)
+      if (savedName) {
+        setReporter(savedName)
+      }
+    }
+  }, [isEditMode])
   const [deathTime, setDeathTime] = useState(() => {
     if (isEditMode && boss.deathTime) {
       const date = new Date(boss.deathTime)
       date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
-      return date.toISOString().slice(0, 16)
+      return date.toISOString().slice(0, 19)
     }
     const now = new Date()
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
-    return now.toISOString().slice(0, 16)
+    return now.toISOString().slice(0, 19)
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    // Save reporter name to localStorage for future use
+    if (reporter.trim()) {
+      localStorage.setItem(REPORTER_NAME_KEY, reporter.trim())
+    }
     // Convert datetime-local string to ISO string with timezone
     const localDate = new Date(deathTime)
     const isoString = localDate.toISOString()
@@ -60,6 +76,7 @@ export function ReportModal({
             <label>擊殺時間</label>
             <input
               type="datetime-local"
+              step="1"
               value={deathTime}
               onChange={(e) => setDeathTime(e.target.value)}
             />
